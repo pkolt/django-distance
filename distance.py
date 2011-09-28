@@ -23,8 +23,9 @@ class DistanceMixin:
     def distance(self, meters):
         lng = getattr(self, self.lng_name, None)
         lat = getattr(self, self.lat_name, None)
+        manager = getattr(self.__class__, self.manager_name)
         if not (lng and lat):
-            return []
+            return manager.none()
         miles = float(meters)/1609.344
         dist_lng = miles/abs(math.cos(math.radians(lat))*69)
         lng1 = lng-dist_lng
@@ -36,5 +37,4 @@ class DistanceMixin:
                   '%s__gte' % self.lat_name: lat1,
                   '%s__lte' % self.lat_name: lat2
         }
-        manager = getattr(self.__class__, self.manager_name)
         return manager.filter(**kwargs).exclude(pk=self.pk)
