@@ -32,10 +32,9 @@ class DistanceMixin:
         lat1 = lat-(miles/69)
         lat2 = lat+(miles/69)
         kwargs = {'%s__gte' % self.lng_name: lng1,
-                  '%s__lte' % self.lng_name: lng2,
-                  '%s__gte' % self.lat_name: lat1,
-                  '%s__lte' % self.lat_name: lat2
+                       '%s__lte' % self.lng_name: lng2,
+                       '%s__gte' % self.lat_name: lat1,
+                       '%s__lte' % self.lat_name: lat2
         }
         manager = getattr(self.__class__, self.manager_name)
-        print self.pk
-        return manager.filter(**kwargs).exclude(pk=self.pk)
+        return manager.filter(**kwargs)
